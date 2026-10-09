@@ -1,13 +1,17 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/OpenGL.hpp>
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Sandbox");
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(240);
+
 
     // 1. Create two render textures for ping-ponging
     sf::RenderTexture bufferA, bufferB;
     bufferA.create(800, 600);
     bufferB.create(800, 600);
+    bufferA.setSmooth(false);
+    bufferB.setSmooth(false);
     bufferA.clear(sf::Color::Black);
     bufferB.clear(sf::Color::Black);
 
