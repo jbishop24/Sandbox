@@ -18,10 +18,16 @@ int main() {
 
     sf::Shader simShader;
     simShader.loadFromFile("/home/jon/Sandbox/test.frag", sf::Shader::Fragment);
+    sf::RenderStates simStates;
+    simStates.shader = &simShader;
+    simStates.blendMode = sf::BlendNone;
     sf::Sprite simSprite;
 
     sf::Shader vizShader;
     vizShader.loadFromFile("/home/jon/Sandbox/viz.frag", sf::Shader::Fragment);
+    sf::RenderStates vizStates;
+    vizStates.shader = &vizShader;
+    vizStates.blendMode = sf::BlendNone;
     sf::Sprite vizSprite;
 
     while (window.isOpen()) {
@@ -44,14 +50,14 @@ int main() {
         simShader.setUniform("u_mouse_pressed", isLeftPressed ? 1.0f : 0.0f);
         simSprite.setTexture(readBuffer->getTexture());
         writeBuffer->clear();
-        writeBuffer->draw(simSprite, &simShader);
+        writeBuffer->draw(simSprite, simStates);
         writeBuffer->display();
 
         vizShader.setUniform("u_texture", writeBuffer->getTexture());
         vizShader.setUniform("u_resolution", sf::Glsl::Vec2(800.0, 600.0));
         vizSprite.setTexture(writeBuffer->getTexture());
         window.clear();
-        window.draw(vizSprite, &vizShader);
+        window.draw(vizSprite, vizStates);
         window.display();
 
         std::swap(readBuffer, writeBuffer);

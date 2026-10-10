@@ -12,18 +12,19 @@ float m3 = m1 * m1 * m1;
 
 vec4 packFloat(float value) {
     vec4 c;
-    float v = m2 * value;
-    c.r = floor(v) / m2;
-    v -= m2 * c.r;
-    c.g = floor(v) / m1;
-    v -= m1 * c.g;
-    c.b = v;
-    c.a = 1.0;
+    float v = m3 * value;
+    c.r = floor(v) / m3;
+    v -= m3 * c.r;
+    c.g = floor(v) / m2;
+    v -= m2 * c.g;
+    c.b = floor(v) / m1;
+    v -= m1 * c.b;
+    c.a = v;
     return c;
 }
 
 float unpackFloat(vec4 c) {
-    return (m2 * c.r + m1 * c.g + c.b) / m2;
+    return (m3 * c.r + m2 * c.g + m1 * c.b + c.a) / m3;
 }
 
 float getValue(vec2 uv) {
