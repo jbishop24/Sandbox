@@ -6,26 +6,24 @@ uniform float u_mouse_pressed;
 
 out vec4 FragColor;
 
-vec4 red = vec4(1.0,0.0,0.0,1.0);
-vec4 green = vec4(0.0,1.0,0.0,1.0);
-vec4 yellow = vec4(1.0,1.0,0.0,1.0);
-vec4 black = vec4(0.0,0.0,0.0,1.0);
-vec4 white = vec4(1.0,1.0,1.0,1.0);
+float m1 = 255.0;
+float m2 = m1 * m1;
+float m3 = m1 * m1 * m1;
 
 vec4 packFloat(float value) {
     vec4 c;
-    float v = 10000.0 * value;
-    c.r = floor(v) / 10000.0;
-    v -= 10000.0 * c.r;
-    c.g = floor(v) / 100.0;
-    v -= 100 * c.g;
+    float v = m2 * value;
+    c.r = floor(v) / m2;
+    v -= m2 * c.r;
+    c.g = floor(v) / m1;
+    v -= m1 * c.g;
     c.b = v;
     c.a = 1.0;
     return c;
 }
 
 float unpackFloat(vec4 c) {
-    return (10000.0 * c.r + 100* c.g + c.b) / 10000.0;
+    return (m2 * c.r + m1 * c.g + c.b) / m2;
 }
 
 float getValue(vec2 uv) {
