@@ -12,28 +12,21 @@ vec4 yellow = vec4(1.0,1.0,0.0,1.0);
 vec4 black = vec4(0.0,0.0,0.0,1.0);
 vec4 white = vec4(1.0,1.0,1.0,1.0);
 
-#if 0
 vec4 packFloat(float value) {
-    const vec4 bitShift = vec4(256.0 * 256.0 * 256.0, 256.0 * 256.0, 256.0, 1.0);
-    const vec4 bitMask  = vec4(0.0, 1.0 / 256.0, 1.0 / 256.0, 1.0 / 256.0);
-    vec4 res = fract(value * bitShift);
-    res -= res.xxyz * bitMask;
-    return res;
+    vec4 c;
+    float v = 10000.0 * value;
+    c.r = floor(v) / 10000.0;
+    v -= 10000.0 * c.r;
+    c.g = floor(v) / 100.0;
+    v -= 100 * c.g;
+    c.b = v;
+    c.a = 1.0;
+    return c;
 }
 
-float unpackFloat(vec4 rgba) {
-    const vec4 bitShift = vec4(1.0 / (256.0 * 256.0 * 256.0), 1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
-    return dot(rgba, bitShift);
+float unpackFloat(vec4 c) {
+    return (10000.0 * c.r + 100* c.g + c.b) / 10000.0;
 }
-#else
-vec4 packFloat(float value) {
-    return vec4(value,0.0,0.0,1.0);
-}
-
-float unpackFloat(vec4 rgba) {
-    return rgba.r;
-}
-#endif
 
 float getValue(vec2 uv) {
     return unpackFloat(texture2D(u_texture, uv));
