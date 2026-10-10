@@ -25,4 +25,5 @@ SOURCES += \
 DISTFILES += \
     fluids.frag \
     simulation.frag \
-    test.frag
+    test.frag \
+    viz.frag
